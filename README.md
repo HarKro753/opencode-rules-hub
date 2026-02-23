@@ -36,11 +36,11 @@ opencode-rules-hub is a self-hosted platform that stores rule sets as plain mark
 
 Three packages, one monorepo:
 
-| Package | Description |
-|---|---|
-| `packages/server` | TypeScript HTTP server. Stores rules as `.md` files. REST API on port `3847`. |
-| `packages/dashboard` | Next.js web UI. Browse, create, edit, and delete rule sets. Port `3848`. |
-| `packages/plugin` | OpenCode plugin. Fetches rules from the server, persists locally, injects into agent context. |
+| Package              | Description                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| `packages/server`    | TypeScript HTTP server. Stores rules as `.md` files. REST API on port `3847`.                 |
+| `packages/dashboard` | Next.js web UI. Browse, create, edit, and delete rule sets. Port `3848`.                      |
+| `packages/plugin`    | OpenCode plugin. Fetches rules from the server, persists locally, injects into agent context. |
 
 ## Quick Start
 
@@ -91,24 +91,24 @@ On the next session compaction, the plugin fetches your rule sets, saves them to
 
 ## Plugin Commands
 
-| Command | Description |
-|---|---|
+| Command       | Description                                  |
+| ------------- | -------------------------------------------- |
 | `/rules-sync` | Force re-fetch all rule sets from the server |
-| `/rules` | Display the current locally cached rules |
+| `/rules`      | Display the current locally cached rules     |
 
 ## API Reference
 
 Read routes are public. All mutating routes require `Authorization: Bearer <api-key>`.
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/health` | Health check |
-| `GET` | `/sets` | List all available sets |
-| `GET` | `/rules?sets=typescript,go` | Get merged markdown for multiple sets |
-| `GET` | `/rules/:set` | Get a single rule set |
-| `POST` | `/rules/:set` | Create a rule set (body: markdown) |
-| `PUT` | `/rules/:set` | Update a rule set (body: markdown) |
-| `DELETE` | `/rules/:set` | Delete a rule set |
+| Method   | Endpoint                    | Description                           |
+| -------- | --------------------------- | ------------------------------------- |
+| `GET`    | `/health`                   | Health check                          |
+| `GET`    | `/sets`                     | List all available sets               |
+| `GET`    | `/rules?sets=typescript,go` | Get merged markdown for multiple sets |
+| `GET`    | `/rules/:set`               | Get a single rule set                 |
+| `POST`   | `/rules/:set`               | Create a rule set (body: markdown)    |
+| `PUT`    | `/rules/:set`               | Update a rule set (body: markdown)    |
+| `DELETE` | `/rules/:set`               | Delete a rule set                     |
 
 ### Examples
 
