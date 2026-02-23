@@ -10,7 +10,10 @@
     "build": "npm run build --workspaces",
     "dev:server": "npm run dev --workspace=packages/server",
     "dev:dashboard": "npm run dev --workspace=packages/dashboard",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "release:patch": "npm version patch --workspace=packages/plugin && git push && git push --tags",
+    "release:minor": "npm version minor --workspace=packages/plugin && git push && git push --tags",
+    "release:major": "npm version major --workspace=packages/plugin && git push && git push --tags"
   },
   "engines": {
     "node": ">=18"
