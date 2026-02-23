@@ -1,12 +1,67 @@
 {
   "name": "opencode-rules-hub",
   "version": "1.0.0",
+  "description": "OpenCode plugin that connects to opencode-rules-hub — centralized rule management for AI coding agents.",
   "type": "module",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
-    "test": "vitest run"
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run test && npm run build",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
+  },
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "rules",
+    "context",
+    "conventions",
+    "coding-standards",
+    "agent-memory",
+    "developer-tools"
+  ],
+  "author": "HarKro753",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HarKro753/opencode-rules-hub.git",
+    "directory": "packages/plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/HarKro753/opencode-rules-hub/issues"
+  },
+  "homepage": "https://github.com/HarKro753/opencode-rules-hub#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@opencode-ai/plugin": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@opencode-ai/plugin": "^1.2.10"
@@ -15,10 +70,5 @@
     "@types/node": "^22.10.0",
     "typescript": "^5.7.0",
     "vitest": "^2.1.0"
-  },
-  "files": [
-    "dist",
-    "package.json",
-    "README.md"
-  ]
+  }
 }

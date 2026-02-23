@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18, 20, 22]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck (plugin)
+        run: npm run typecheck --workspace=packages/plugin
+
+      - name: Run tests (plugin)
+        run: npm run test --workspace=packages/plugin
+
+      - name: Build all packages
+        run: npm run build
+
+  plugin-package-dry-run:
+    name: Plugin package dry run
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build plugin
+        run: npm run build --workspace=packages/plugin
+
+      - name: Pack dry run
+        working-directory: packages/plugin
+        run: |
+          npm pack --dry-run 2>&1 | tee /tmp/pack-output.txt
+          grep -q "dist/index.js" /tmp/pack-output.txt || (echo "dist/index.js missing from package" && exit 1)
+          grep -q "README.md" /tmp/pack-output.txt || (echo "README.md missing from package" && exit 1)
+          grep -q "LICENSE" /tmp/pack-output.txt || (echo "LICENSE missing from package" && exit 1)
+          echo "Package contents verified"
