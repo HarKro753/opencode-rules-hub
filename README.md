@@ -4,6 +4,7 @@
 
 **Centralized rules management for your AI coding agents.**
 
+[![npm version](https://img.shields.io/npm/v/opencode-rules-hub?color=blue)](https://www.npmjs.com/package/opencode-rules-hub)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Self-hosted](https://img.shields.io/badge/self--hosted-ready-green)](https://github.com/HarKro753/opencode-rules-hub)
 
