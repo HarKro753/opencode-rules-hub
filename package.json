@@ -1,0 +1,18 @@
+{
+  "name": "opencode-rules-hub",
+  "private": true,
+  "workspaces": [
+    "packages/server",
+    "packages/dashboard",
+    "packages/plugin"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev:server": "npm run dev --workspace=packages/server",
+    "dev:dashboard": "npm run dev --workspace=packages/dashboard",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
