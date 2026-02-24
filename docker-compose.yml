@@ -1,0 +1,36 @@
+services:
+  server:
+    build:
+      context: ./packages/server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT:-3847}:3847"
+    environment:
+      - PORT=3847
+      - API_KEY=${API_KEY:-changeme}
+      - DATA_DIR=/data
+    volumes:
+      - rules-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3847/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  dashboard:
+    build:
+      context: ./packages/dashboard
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_RULES_SERVER_URL=${RULES_SERVER_URL:-http://localhost:3847}
+    restart: unless-stopped
+    ports:
+      - "${DASHBOARD_PORT:-3848}:3848"
+    depends_on:
+      server:
+        condition: service_healthy
+
+volumes:
+  rules-data:

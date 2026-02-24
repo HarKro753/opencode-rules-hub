@@ -29,6 +29,7 @@ opencode-rules-hub is a self-hosted platform that stores rule sets as plain mark
 - [API Reference](#api-reference)
 - [Rule Storage](#rule-storage)
 - [Self-Hosting](#self-hosting)
+- [Docker](#docker-compose-recommended)
 - [Development](#development)
 - [License](#license)
 
@@ -158,10 +159,34 @@ No database. No migrations. No ORM. Back up the `data/` folder and you have ever
 
 ## Self-Hosting
 
-The server is stateless apart from the data directory. Run it behind a reverse proxy and set a strong `API_KEY`:
+### Docker Compose (recommended)
+
+The fastest way to run the full stack:
 
 ```bash
-PORT=3847 API_KEY=your-secret DATA_DIR=./data node dist/index.js
+cp .env.example .env
+# Edit .env — set a strong API_KEY
+docker compose up -d
+```
+
+Server → `http://localhost:3847`
+Dashboard → `http://localhost:3848`
+
+Rules are persisted in a named Docker volume (`rules-data`). To back up, copy the volume's contents or mount a host directory instead.
+
+### Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `API_KEY` | `changeme` | Secures write operations — **change before deploying** |
+| `RULES_SERVER_URL` | `http://server:3847` | URL the dashboard uses to reach the server |
+| `SERVER_PORT` | `3847` | Host port for the server |
+| `DASHBOARD_PORT` | `3848` | Host port for the dashboard |
+
+### Manual (without Docker)
+
+```bash
+PORT=3847 API_KEY=your-secret DATA_DIR=./data node packages/server/dist/index.js
 ```
 
 Point any number of projects at the same server. Rules update everywhere the moment you change them in the dashboard.
