@@ -1,0 +1,11 @@
+node_modules
+.next
+dist
+.git
+.gitignore
+*.md
+.env*
+!.env.example
+TASK.md
+CLAUDE.md
+.claude
